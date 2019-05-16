@@ -2,8 +2,7 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - json
-  # - shell
+  - shell
   # - ruby
   # - python
   # - javascript
@@ -99,26 +98,40 @@ The Authentication in GameLab's API is made using **COOKIES**. Therefore, to log
 # Login
 This API allow you to login user.
 
+```shell
+curl -X POST \
+  http://localhost:8000/api_client_v1/login \
+  -F email=cayke10@gmail.com \
+  -F password=123456
+```
+
 > JSON response example:
 
 ```json
-{  
-   "data":{  
-      "first_name":"Cayke",
-      "id":"56d1d826072d4127fb6fb9f9",
-      "addresses":[],
-      "last_name":"Prudente",
-      "cpf":"034.123.765-14",
-      "birthday":"1990-04-21T12:00:00+00:00",
-      "user_type":"PF",
-      "phone":"(61)99999-3871",
-      "email":"cayke@gmail.com",
-      "gender":"M",
-      "cards":[]
-   },
-   "status":"success",
-   "count":0,
-   "http_status":200
+{
+    "data": {
+        "id": "5cddb6dfb4876c265729c75e",
+        "email": "cayke10@gmail.com",
+        "phone": "(61)99161-3871",
+        "first_name": "Cayke",
+        "last_name": "Prudente",
+        "gender": "M",
+        "cpf": "034.874.481-14",
+        "user_type": "PF",
+        "birthday": "1993-05-22T12:00:00+00:00",
+        "created_at": "2019-05-16T19:15:43.128000+00:00",
+        "address": {
+            "street": "SQS 412 Bloco B",
+            "street_number": "105",
+            "zipcode": "70278020",
+            "neighborhood": "Asa sul",
+            "complement": "",
+            "state": "DF",
+            "city": "Brasilia"
+        }
+    },
+    "count": 0,
+    "http_status": 200
 }
 ```
 
@@ -135,12 +148,17 @@ Parameter | Type | Constraint | Description
 # Logout
 This API allow you to logout user.
 
+```shell
+curl -X DELETE \
+  http://localhost:8000/api_client_v1/logout \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+```
+
 > JSON response example:
 
 ```json
 {  
    "data":"ok",
-   "status":"success",
    "count":0,
    "http_status":200
 }
@@ -160,17 +178,21 @@ Attribute | Type | Description
 `email` | string | User email.
 `phone` | string | User phone.
 `user_type` | string | User type. If `PF` see [UserPF](#userpf-properties), if `PJ` see [UserPJ](#userpj-properties).
-
-## UserPF properties
-All UserPF inherit from User.
-
-Attribute | Type | Description
--------------- | -------------- | -------------- 
 `gender` | string | User gender. Either `F` or `M`.
 `first_name` | string | User first name.
 `last_name` | string | User last name.
 `birthday` | datetime | User birthday.
 `cpf` | string | User CPF.
+`zipcode` | string | Address zipcode.
+`state` | string | Address state.
+`city` | string | Address city.
+`neighborhood` | string | Address neighborhood.
+`street` | string | Adress Street name.
+`street_number` | string | Address Street/House Number.
+`complement` | string | Address complement.
+
+## UserPF properties
+All UserPF inherit from User.
 
 ## UserPJ properties
 All UserPJ inherit from User.
@@ -178,29 +200,45 @@ All UserPJ inherit from User.
 Attribute | Type | Description
 -------------- | -------------- | -------------- 
 `company_name` | string | User company name.
-`fantasy_name` | string | User fantasy name.
+`company_size` | string | Company port. `ME`, `EPP`, `MP`, `GP`.
 `cnpj` | string | User CNPJ.
 
 ## Retrieve User
 This API allows you to get the logged user.
 
+```shell
+curl -X GET \
+  http://localhost:8000/api_client_v1/user \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+```
+
 > JSON response example:
 
 ```json
-{  
-   "data":{  
-      "first_name":"Cayke",
-      "id":"56d1d826072d4127fb6fb9f9",
-      "last_name":"Prudente",
-      "cpf":"034.123.765-14",
-      "birthday":"1990-04-21T12:00:00+00:00",
-      "user_type":"PF",
-      "phone":"(61)99999-3871",
-      "email":"cayke@gmail.com",
-      "gender":"M"
-   },
-   "count":0,
-   "http_status":200
+{
+    "data": {
+        "email": "cayke10@gmail.com",
+        "address": {
+            "complement": "",
+            "street": "SQS 412 Bloco B",
+            "street_number": "105",
+            "city": "Brasilia",
+            "neighborhood": "Asa sul",
+            "state": "DF",
+            "zipcode": "70278020"
+        },
+        "id": "5cddb6dfb4876c265729c75e",
+        "last_name": "Prudente",
+        "phone": "(61)99161-3871",
+        "cpf": "034.874.481-14",
+        "birthday": "1993-05-22T12:00:00+00:00",
+        "created_at": "2019-05-16T19:15:43.128000+00:00",
+        "gender": "M",
+        "first_name": "Cayke",
+        "user_type": "PF"
+    },
+    "count": 0,
+    "http_status": 200
 }
 ```
 
@@ -210,21 +248,54 @@ This API allows you to get the logged user.
 ## Create User
 This API allows you to create new User.
 
+```shell
+curl -X POST \
+  http://localhost:8000/api_client_v1/user \
+  -H 'content-length: 1661' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F email=cayke10@gmail.com \
+  -F password=123456 \
+  -F first_name=Cayke \
+  -F last_name=Prudente \
+  -F gender=M \
+  -F birthday=22/05/1993 \
+  -F cpf=034.874.481-14 \
+  -F 'phone=(61)99161-3871' \
+  -F zipcode=70278020 \
+  -F state=DF \
+  -F city=Brasilia \
+  -F 'neighborhood=Asa sul' \
+  -F 'street=SQS 412 Bloco B' \
+  -F street_number=105
+```
+
+> JSON response example:
+
 ```json
-{  
-   "data":{  
-      "first_name":"Cayke",
-      "id":"56d1d826072d4127fb6fb9f9",
-      "last_name":"Prudente",
-      "cpf":"034.123.765-14",
-      "birthday":"1990-04-21T12:00:00+00:00",
-      "user_type":"PF",
-      "phone":"(61)99999-3871",
-      "email":"cayke@gmail.com",
-      "gender":"M",
-   },
-   "count":0,
-   "http_status":200
+{
+    "data": {
+        "email": "cayke10@gmail.com",
+        "address": {
+            "complement": "",
+            "street": "SQS 412 Bloco B",
+            "street_number": "105",
+            "city": "Brasilia",
+            "neighborhood": "Asa sul",
+            "state": "DF",
+            "zipcode": "70278020"
+        },
+        "id": "5cddb6dfb4876c265729c75e",
+        "last_name": "Prudente",
+        "phone": "(61)99161-3871",
+        "cpf": "034.874.481-14",
+        "birthday": "1993-05-22T12:00:00+00:00",
+        "created_at": "2019-05-16T19:15:43.128000+00:00",
+        "gender": "M",
+        "first_name": "Cayke",
+        "user_type": "PF"
+    },
+    "count": 0,
+    "http_status": 200
 }
 ```
 
@@ -237,33 +308,69 @@ Parameter | Type | Constraint | Description
 `email` | string | required | User email.
 `password` | string | required | User password.
 `phone` | string | required | User phone.
-`first_name` | string | required for PF | User first name.
-`last_name` | string | required for PF | User last name.
-`gender` | string | required for PF | User gender. `F` or `M`.
-`birthday` | string | required for PF | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required for PF | User CPF.
+`first_name` | string | required | User first name.
+`last_name` | string | required | User last name.
+`gender` | string | required | User gender. `F` or `M`.
+`birthday` | string | required | User birthday. `DD/MM/YYYY` format.
+`cpf` | string | required | User CPF.
+`zipcode` | string | required | Address zipcode.
+`state` | string | required | Address state.
+`city` | string | required | Address city.
+`neighborhood` | string | required | Address neighborhood.
+`street` | string | required | Adress Street name.
+`street_number` | string | required | Address Street/House Number.
+`complement` | string | optional | Address complement.
 `company_name` | string | required for PJ | User company name.
-`fantasy_name` | string | required for PJ | User fantasy name.
+`company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
 `cnpj` | string | required for PJ | User CNPJ.
 
-## Edi User
+## Edit User
 This API allows you to edit User info.
 
+```shell
+curl -X PUT \
+  http://localhost:8000/api_client_v1/user \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F first_name=Cayke \
+  -F last_name=Prudente \
+  -F gender=M \
+  -F birthday=22/05/1993 \
+  -F cpf=034.874.481-14 \
+  -F 'phone=(61)99161-3871' \
+  -F zipcode=70278020 \
+  -F state=DF \
+  -F city=Brasilia \
+  -F 'neighborhood=Asa sul' \
+  -F 'street=SQS 412 Bloco B' \
+  -F street_number=105
+```
+> JSON response example:
+
 ```json
-{  
-   "data":{  
-      "first_name":"Cayke",
-      "id":"56d1d826072d4127fb6fb9f9",
-      "last_name":"Prudente",
-      "cpf":"034.123.765-14",
-      "birthday":"1990-04-21T12:00:00+00:00",
-      "user_type":"PF",
-      "phone":"(61)99999-3871",
-      "email":"cayke@gmail.com",
-      "gender":"M"
-   },
-   "count":0,
-   "http_status":200
+{
+    "data": {
+        "email": "cayke10@gmail.com",
+        "address": {
+            "complement": "",
+            "street": "SQS 412 Bloco B",
+            "street_number": "105",
+            "city": "Brasilia",
+            "neighborhood": "Asa sul",
+            "state": "DF",
+            "zipcode": "70278020"
+        },
+        "id": "5cddb6dfb4876c265729c75e",
+        "last_name": "Prudente",
+        "phone": "(61)99161-3871",
+        "cpf": "034.874.481-14",
+        "birthday": "1993-05-22T12:00:00+00:00",
+        "created_at": "2019-05-16T19:15:43.128000+00:00",
+        "gender": "M",
+        "first_name": "Cayke",
+        "user_type": "PF"
+    },
+    "count": 0,
+    "http_status": 200
 }
 ```
 
@@ -274,13 +381,20 @@ This API allows you to edit User info.
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
 `phone` | string | required | User phone.
-`first_name` | string | required for PF | User first name.
-`last_name` | string | required for PF | User last name.
-`gender` | string | required for PF | User gender. `F` or `M`.
-`birthday` | string | required for PF | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required for PF | User CPF.
+`first_name` | string | required | User first name.
+`last_name` | string | required | User last name.
+`gender` | string | required | User gender. `F` or `M`.
+`birthday` | string | required | User birthday. `DD/MM/YYYY` format.
+`cpf` | string | required | User CPF.
+`zipcode` | string | required | Address zipcode.
+`state` | string | required | Address state.
+`city` | string | required | Address city.
+`neighborhood` | string | required | Address neighborhood.
+`street` | string | required | Adress Street name.
+`street_number` | string | required | Address Street/House Number.
+`complement` | string | optional | Address complement.
 `company_name` | string | required for PJ | User company name.
-`fantasy_name` | string | required for PJ | User fantasy name.
+`company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
 `cnpj` | string | required for PJ | User CNPJ.
 
 # User Password
@@ -288,6 +402,15 @@ This API allows you to change user password with different methods.
 
 ## Change with actual password
 This API replaces the logged user password if password matches to actual password.
+
+```shell
+curl -X PUT \
+  http://localhost:8000/api_client_v1/user \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708' \
+  -F password=123456 \
+  -F new_password=qwerty
+```
 
 > JSON response example:
 

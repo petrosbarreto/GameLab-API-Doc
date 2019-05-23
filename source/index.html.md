@@ -96,7 +96,7 @@ The Authentication in GameLab's API is made using **COOKIES**. Therefore, to log
 
 
 # Login
-This API allow you to login user.
+This API allow you to login user. You must pass `email` and `password` or `fb_user_id`.
 
 ```shell
 curl -X POST \
@@ -112,17 +112,17 @@ curl -X POST \
     "data": {
         "id": "5cddb6dfb4876c265729c75e",
         "email": "cayke10@gmail.com",
-        "phone": "(61)99161-3871",
+        "phone": "(61)99161-3771",
         "first_name": "Cayke",
         "last_name": "Prudente",
         "gender": "M",
-        "cpf": "034.874.481-14",
+        "cpf": "034.834.481-24",
         "user_type": "PF",
         "birthday": "1993-05-22T12:00:00+00:00",
         "created_at": "2019-05-16T19:15:43.128000+00:00",
         "address": {
-            "street": "SQS 412 Bloco B",
-            "street_number": "105",
+            "street": "SQS 412 Bloco X",
+            "street_number": "100",
             "zipcode": "70278020",
             "neighborhood": "Asa sul",
             "complement": "",
@@ -141,8 +141,9 @@ curl -X POST \
 #### Available parameters
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
-`email` | string | required | User email.
-`password` | string | required | User password.
+`email` | string | optional | User email.
+`password` | string | optional | User password.
+`fb_user_id` | string | optional | User Facebook Id.
 
 
 # Logout
@@ -217,25 +218,25 @@ curl -X GET \
 ```json
 {
     "data": {
-        "email": "cayke10@gmail.com",
-        "address": {
-            "complement": "",
-            "street": "SQS 412 Bloco B",
-            "street_number": "105",
-            "city": "Brasilia",
-            "neighborhood": "Asa sul",
-            "state": "DF",
-            "zipcode": "70278020"
-        },
         "id": "5cddb6dfb4876c265729c75e",
+        "email": "cayke10@gmail.com",
+        "phone": "(61)99161-3771",
+        "first_name": "Cayke",
         "last_name": "Prudente",
-        "phone": "(61)99161-3871",
-        "cpf": "034.874.481-14",
+        "gender": "M",
+        "cpf": "034.834.481-24",
+        "user_type": "PF",
         "birthday": "1993-05-22T12:00:00+00:00",
         "created_at": "2019-05-16T19:15:43.128000+00:00",
-        "gender": "M",
-        "first_name": "Cayke",
-        "user_type": "PF"
+        "address": {
+            "street": "SQS 412 Bloco X",
+            "street_number": "100",
+            "zipcode": "70278020",
+            "neighborhood": "Asa sul",
+            "complement": "",
+            "state": "DF",
+            "city": "Brasilia"
+        }
     },
     "count": 0,
     "http_status": 200
@@ -306,7 +307,8 @@ curl -X POST \
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
 `email` | string | required | User email.
-`password` | string | required | User password.
+`password` | string | optional | User password.
+`fb_user_id` | string | optional | User Facebook Id.
 `phone` | string | required | User phone.
 `first_name` | string | required | User first name.
 `last_name` | string | required | User last name.
@@ -335,39 +337,39 @@ curl -X PUT \
   -F last_name=Prudente \
   -F gender=M \
   -F birthday=22/05/1993 \
-  -F cpf=034.874.481-14 \
-  -F 'phone=(61)99161-3871' \
+  -F cpf=034.834.481-24 \
+  -F 'phone=(61)99161-3771' \
   -F zipcode=70278020 \
   -F state=DF \
   -F city=Brasilia \
   -F 'neighborhood=Asa sul' \
-  -F 'street=SQS 412 Bloco B' \
-  -F street_number=105
+  -F 'street=SQS 412 Bloco X' \
+  -F street_number=100
 ```
 > JSON response example:
 
 ```json
 {
     "data": {
-        "email": "cayke10@gmail.com",
-        "address": {
-            "complement": "",
-            "street": "SQS 412 Bloco B",
-            "street_number": "105",
-            "city": "Brasilia",
-            "neighborhood": "Asa sul",
-            "state": "DF",
-            "zipcode": "70278020"
-        },
         "id": "5cddb6dfb4876c265729c75e",
+        "email": "cayke10@gmail.com",
+        "phone": "(61)99161-3771",
+        "first_name": "Cayke",
         "last_name": "Prudente",
-        "phone": "(61)99161-3871",
-        "cpf": "034.874.481-14",
+        "gender": "M",
+        "cpf": "034.834.481-24",
+        "user_type": "PF",
         "birthday": "1993-05-22T12:00:00+00:00",
         "created_at": "2019-05-16T19:15:43.128000+00:00",
-        "gender": "M",
-        "first_name": "Cayke",
-        "user_type": "PF"
+        "address": {
+            "street": "SQS 412 Bloco X",
+            "street_number": "100",
+            "zipcode": "70278020",
+            "neighborhood": "Asa sul",
+            "complement": "",
+            "state": "DF",
+            "city": "Brasilia"
+        }
     },
     "count": 0,
     "http_status": 200

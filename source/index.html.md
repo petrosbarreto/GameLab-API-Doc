@@ -100,7 +100,7 @@ This API allow you to login user. You must pass `email` and `password` or `fb_us
 
 ```shell
 curl -X POST \
-  http://localhost:8000/api_client_v1/login \
+  http://api.gamelab.tk/api_client_v1/login \
   -F email=cayke10@gmail.com \
   -F password=123456
 ```
@@ -151,7 +151,7 @@ This API allow you to logout user.
 
 ```shell
 curl -X DELETE \
-  http://localhost:8000/api_client_v1/logout \
+  http://api.gamelab.tk/api_client_v1/logout \
   -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
 ```
 
@@ -209,7 +209,7 @@ This API allows you to get the logged user.
 
 ```shell
 curl -X GET \
-  http://localhost:8000/api_client_v1/user \
+  http://api.gamelab.tk/api_client_v1/user \
   -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
 ```
 
@@ -251,9 +251,7 @@ This API allows you to create new User.
 
 ```shell
 curl -X POST \
-  http://localhost:8000/api_client_v1/user \
-  -H 'content-length: 1661' \
-  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  http://api.gamelab.tk/api_client_v1/user \
   -F email=cayke10@gmail.com \
   -F password=123456 \
   -F first_name=Cayke \
@@ -331,8 +329,8 @@ This API allows you to edit User info.
 
 ```shell
 curl -X PUT \
-  http://localhost:8000/api_client_v1/user \
-  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  http://api.gamelab.tk/api_client_v1/user \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708' \
   -F first_name=Cayke \
   -F last_name=Prudente \
   -F gender=M \
@@ -407,8 +405,7 @@ This API replaces the logged user password if password matches to actual passwor
 
 ```shell
 curl -X PUT \
-  http://localhost:8000/api_client_v1/user \
-  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  http://api.gamelab.tk/api_client_v1/user \
   -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708' \
   -F password=123456 \
   -F new_password=qwerty
@@ -436,6 +433,12 @@ Parameter | Type | Constraint | Description
 ## Generate Token 
 This API generates token and send it to user email.
 
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_client_v1/forgotpassword \
+  -F email=cayke10@gmail.com
+```
+
 > JSON response example:
 
 ```json
@@ -453,11 +456,17 @@ This API generates token and send it to user email.
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
 `email` | string | required | User email.
-`landing_domain` | string | required | To what URL the email sent to user should redirect. The token will be append in the end of this URL.
 
 
 ## Change Password with Token
 Changes User password using Token send to email.
+
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_client_v1/change_password \
+  -F token=6a715cce7d9011e981d2f01898ee8fb8888c8a720b134a63b568d3f4487cc947 \
+  -F password=qwerty
+```
 
 > JSON response example:
 

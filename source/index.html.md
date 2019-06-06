@@ -19,7 +19,11 @@ search: true
 
 # Introduction
 
-Welcome to GameLab's **REST** Client API.
+Welcome to GameLab's REST **Client** API.
+
+To check other docs, click above:
+
+- [Admin Doc](/admin.html).
 
 ## URLs
 
@@ -167,6 +171,60 @@ curl -X DELETE \
 
 ### HTTP Request
 `DELETE /logout`
+
+# Question
+This API allows you to list questions by id.
+
+## Question properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`title` | string | User email.
+`is_flow_root` | boolean | If this question is the root of app flow.
+`choices` | array | List of possible answers. See [Answer](#answer-properties).
+
+## Retrieve Question
+This API return question data.
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/question?id=5cf97b174360c52896606ca3' \
+  -b 'GLAdminSessionCookie=5c15f7287aa145eaab464b4d597ab0f8; 
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "title": "Você tem alguma ideia de negócio?",
+        "is_flow_root": true,
+        "choices": [
+            {
+                "title": "Não",
+                "finish_module": "5cf979f44360c52896606ca2",
+                "id": "5cf96b5d1ed86d47bc64c75b"
+            },
+            {
+                "title": "Sim",
+                "id": "5cf96a946110d035057e36f7",
+                "next_question": "5cf97b174360c52896606ca3"
+            }
+        ],
+        "id": "5cf968ff54d723678ade3adf"
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /question`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`id` | string | optional | Question Id.
 
 
 # User

@@ -227,6 +227,81 @@ Parameter | Type | Constraint | Description
 `id` | string | optional | Question Id.
 
 
+# Screening
+This API allows you to go through idea initial setup.
+
+## Get actual question
+This API allows you to get the current question on screening flow.
+
+```shell
+curl -X GET \
+  http://api.gamelab.tk/api_client_v1/screening \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "title": "Você tem alguma ideia de negócio?",
+        "id": "5cf968ff54d723678ade3adf",
+        "is_flow_root": true,
+        "choices": [
+            {
+                "title": "Não",
+                "id": "5cf96b5d1ed86d47bc64c75b",
+                "finish_module": "5cf979f44360c52896606ca2"
+            },
+            {
+                "title": "Sim",
+                "id": "5cf96a946110d035057e36f7",
+                "next_question": "5cf97b174360c52896606ca3"
+            }
+        ]
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /screening`
+
+## Answer Question
+This API allows you to get the answer a question. The response is either a new [Question](#question-properties) or a [Module](#module-properties).
+
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_client_v1/screening \
+  -H 'cookie: GLClientSessionCookie=06564ea3fefe4b568d5867dd26d4bd82' \
+  -d 'question_id=5cf968ff54d723678ade3adf&answer_id=5cf96a946110d035057e36f7'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "title": "Já possui negócio?",
+        "id": "5cf97b174360c52896606ca3",
+        "choices": [],
+        "is_flow_root": false
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`POST /screening`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`question_id` | string | required | Question Id.
+`answer_id` | string | required | Choiced answer Id.
+
 # User
 This API allows you to create, edit and get users.
 
@@ -365,14 +440,14 @@ Parameter | Type | Constraint | Description
 `email` | string | required | User email.
 `password` | string | optional | User password.
 `fb_user_id` | string | optional | User Facebook Id.
-`phone` | string | required | User phone.
+`phone` | string | required | User phone. `(XX)XXXXX-XXXX` format.
 `first_name` | string | required | User first name.
 `last_name` | string | required | User last name.
 `gender` | string | required | User gender. `F` or `M`.
 `birthday` | string | required | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required | User CPF.
+`cpf` | string | required | User CPF. `XXX.XXX.XXX-XX` format.
 `zipcode` | string | required | Address zipcode.
-`state` | string | required | Address state.
+`state` | string | required | Address state. `XX` format.
 `city` | string | required | Address city.
 `neighborhood` | string | required | Address neighborhood.
 `street` | string | required | Adress Street name.
@@ -380,7 +455,7 @@ Parameter | Type | Constraint | Description
 `complement` | string | optional | Address complement.
 `company_name` | string | required for PJ | User company name.
 `company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
-`cnpj` | string | required for PJ | User CNPJ.
+`cnpj` | string | required for PJ | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
 
 ## Edit User
 This API allows you to edit User info.
@@ -438,14 +513,14 @@ curl -X PUT \
 #### Available parameters
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
-`phone` | string | required | User phone.
+`phone` | string | required | User phone. `(XX)XXXXX-XXXX` format.
 `first_name` | string | required | User first name.
 `last_name` | string | required | User last name.
 `gender` | string | required | User gender. `F` or `M`.
 `birthday` | string | required | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required | User CPF.
+`cpf` | string | required | User CPF. `XXX.XXX.XXX-XX` format.
 `zipcode` | string | required | Address zipcode.
-`state` | string | required | Address state.
+`state` | string | required | Address state. `XX` format.
 `city` | string | required | Address city.
 `neighborhood` | string | required | Address neighborhood.
 `street` | string | required | Adress Street name.
@@ -453,7 +528,7 @@ Parameter | Type | Constraint | Description
 `complement` | string | optional | Address complement.
 `company_name` | string | required for PJ | User company name.
 `company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
-`cnpj` | string | required for PJ | User CNPJ.
+`cnpj` | string | required for PJ | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
 
 # User Password
 This API allows you to change user password with different methods.

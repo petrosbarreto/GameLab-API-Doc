@@ -146,6 +146,191 @@ Parameter | Type | Constraint | Description
 `question_id` | string | required | Question where answer should be added.
 
 
+# Demand
+This API allow you to CRUD city demands.
+
+## Demand properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`state` | string | State.
+`city` | string | City.
+`demands` | array<string> | List of demands.
+
+## Get Demands
+```shell
+curl -X GET \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLAdminSessionCookie=5c15f7287aa145eaab464b4d597ab0f8' \
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        {
+            "city": "Brasilia",
+            "state": "DF",
+            "last_modified": "2019-06-27T18:10:41.273000+00:00",
+            "id": "5d128fe1c7f924a22c3a8620",
+            "demands": [
+                "Concurso Publico",
+                "Politica"
+            ],
+            "created_at": "2019-06-25T21:19:29.552000+00:00",
+            "creator": "cayke@instabuy.com.br"
+        }
+    ],
+    "count": 1,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /demand`
+
+## Create City
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLAdminSessionCookie=5c15f7287aa145eaab464b4d597ab0f8' \
+  -F 'city=Brasília' \
+  -F 'state=DF' \
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "created_at": "2019-06-25T21:19:29.552000+00:00",
+        "demands": [],
+        "state": "DF",
+        "id": "5d128fe1c7f924a22c3a8620",
+        "creator": "cayke@instabuy.com.br",
+        "last_modified": "2019-06-25T21:19:29.552000+00:00",
+        "city": "Brasilia"
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`POST /demand`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`city` | string | required | City.
+`state` | string | required | State.
+
+
+## Add Demand to city
+```shell
+curl -X PUT \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLAdminSessionCookie=09eb5c3f2f0a4349a607f183b939cab1' \
+  -F id=5d128fe1c7f924a22c3a8620 \
+  -F 'demand=Concurso Publico'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "city": "Brasilia",
+        "state": "DF",
+        "last_modified": "2019-06-25T21:19:29.552000+00:00",
+        "id": "5d128fe1c7f924a22c3a8620",
+        "demands": [
+            "Concurso Publico"
+        ],
+        "created_at": "2019-06-25T21:19:29.552000+00:00",
+        "creator": "cayke@instabuy.com.br"
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`PUT /demand`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`id` | string | required | City id.
+`demand` | string | required | Demand to be added.
+
+## Remove Demand from city
+```shell
+curl -X DELETE \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLAdminSessionCookie=09eb5c3f2f0a4349a607f183b939cab1' \
+  -F id=5d128fe1c7f924a22c3a8620 \
+  -F 'demand=Concurso Publico'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "city": "Brasilia",
+        "state": "DF",
+        "last_modified": "2019-06-27T18:10:41.273000+00:00",
+        "id": "5d128fe1c7f924a22c3a8620",
+        "demands": [
+            "Politica"
+        ],
+        "created_at": "2019-06-25T21:19:29.552000+00:00",
+        "creator": "cayke@instabuy.com.br"
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`DELETE /demand`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`id` | string | required | City id.
+`demand` | string | required | Demand to be added.
+
+
+## Remove City
+```shell
+curl -X DELETE \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLAdminSessionCookie=09eb5c3f2f0a4349a607f183b939cab1' \
+  -F id=5d128fe1c7f924a22c3a8620
+```
+
+> JSON response example:
+
+```json
+{
+    "data": "ok",
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`DELETE /demand`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`id` | string | required | City id.
+
+
 # Login
 This API allow you to login user. You must pass `email` and `password`.
 
@@ -364,6 +549,191 @@ Parameter | Type | Constraint | Description
 `father_answer_id` | string | optional | Answer where question should be added.
 
 OBS: `father_answer_id` is required if is_flow_root is `false`.
+
+
+# States and Cities
+This API allows you to get states and cities.
+
+## Retrieve States
+This API returns all states.
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/states'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        {
+            "state": "AC",
+            "name": "Acre"
+        },
+        {
+            "state": "AL",
+            "name": "Alagoas"
+        },
+        {
+            "state": "AM",
+            "name": "Amazonas"
+        },
+        {
+            "state": "AP",
+            "name": "Amapá"
+        },
+        {
+            "state": "BA",
+            "name": "Bahia"
+        },
+        {
+            "state": "CE",
+            "name": "Ceará"
+        },
+        {
+            "state": "DF",
+            "name": "Distrito Federal"
+        },
+        {
+            "state": "ES",
+            "name": "Espírito Santo"
+        },
+        {
+            "state": "GO",
+            "name": "Goiás"
+        },
+        {
+            "state": "MA",
+            "name": "Maranhão"
+        },
+        {
+            "state": "MG",
+            "name": "Minas Gerais"
+        },
+        {
+            "state": "MS",
+            "name": "Mato Grosso do Sul"
+        },
+        {
+            "state": "MT",
+            "name": "Mato Grosso"
+        },
+        {
+            "state": "PA",
+            "name": "Pará"
+        },
+        {
+            "state": "PB",
+            "name": "Paraíba"
+        },
+        {
+            "state": "PE",
+            "name": "Pernambuco"
+        },
+        {
+            "state": "PI",
+            "name": "Piauí"
+        },
+        {
+            "state": "PR",
+            "name": "Paraná"
+        },
+        {
+            "state": "RJ",
+            "name": "Rio de Janeiro"
+        },
+        {
+            "state": "RN",
+            "name": "Rio Grande do Norte"
+        },
+        {
+            "state": "RO",
+            "name": "Rondônia"
+        },
+        {
+            "state": "RR",
+            "name": "Roraima"
+        },
+        {
+            "state": "RS",
+            "name": "Rio Grande do Sul"
+        },
+        {
+            "state": "SC",
+            "name": "Santa Catarina"
+        },
+        {
+            "state": "SE",
+            "name": "Sergipe"
+        },
+        {
+            "state": "SP",
+            "name": "São Paulo"
+        },
+        {
+            "state": "TO",
+            "name": "Tocantins"
+        }
+    ],
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /states`
+
+## Retrieve Cities
+This API returns cities from state.
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/states'
+  -F state=AC
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        "Acrelândia",
+        "Assis Brasil",
+        "Brasiléia",
+        "Bujari",
+        "Capixaba",
+        "Cruzeiro do Sul",
+        "Epitaciolândia",
+        "Feijó",
+        "Jordão",
+        "Mâncio Lima",
+        "Manoel Urbano",
+        "Marechal Thaumaturgo",
+        "Plácido de Castro",
+        "Porto Acre",
+        "Porto Walter",
+        "Rio Branco",
+        "Rodrigues Alves",
+        "Santa Rosa do Purus",
+        "Sena Madureira",
+        "Senador Guiomard",
+        "Tarauacá",
+        "Xapuri",
+        "Campinas"
+    ],
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /states`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`state` | string | required | State.
 
 
 # User

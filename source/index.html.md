@@ -302,6 +302,190 @@ Parameter | Type | Constraint | Description
 `question_id` | string | required | Question Id.
 `answer_id` | string | required | Choiced answer Id.
 
+# States and Cities
+This API allows you to get states and cities.
+
+## Retrieve States
+This API returns all states.
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/states'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        {
+            "state": "AC",
+            "name": "Acre"
+        },
+        {
+            "state": "AL",
+            "name": "Alagoas"
+        },
+        {
+            "state": "AM",
+            "name": "Amazonas"
+        },
+        {
+            "state": "AP",
+            "name": "Amapá"
+        },
+        {
+            "state": "BA",
+            "name": "Bahia"
+        },
+        {
+            "state": "CE",
+            "name": "Ceará"
+        },
+        {
+            "state": "DF",
+            "name": "Distrito Federal"
+        },
+        {
+            "state": "ES",
+            "name": "Espírito Santo"
+        },
+        {
+            "state": "GO",
+            "name": "Goiás"
+        },
+        {
+            "state": "MA",
+            "name": "Maranhão"
+        },
+        {
+            "state": "MG",
+            "name": "Minas Gerais"
+        },
+        {
+            "state": "MS",
+            "name": "Mato Grosso do Sul"
+        },
+        {
+            "state": "MT",
+            "name": "Mato Grosso"
+        },
+        {
+            "state": "PA",
+            "name": "Pará"
+        },
+        {
+            "state": "PB",
+            "name": "Paraíba"
+        },
+        {
+            "state": "PE",
+            "name": "Pernambuco"
+        },
+        {
+            "state": "PI",
+            "name": "Piauí"
+        },
+        {
+            "state": "PR",
+            "name": "Paraná"
+        },
+        {
+            "state": "RJ",
+            "name": "Rio de Janeiro"
+        },
+        {
+            "state": "RN",
+            "name": "Rio Grande do Norte"
+        },
+        {
+            "state": "RO",
+            "name": "Rondônia"
+        },
+        {
+            "state": "RR",
+            "name": "Roraima"
+        },
+        {
+            "state": "RS",
+            "name": "Rio Grande do Sul"
+        },
+        {
+            "state": "SC",
+            "name": "Santa Catarina"
+        },
+        {
+            "state": "SE",
+            "name": "Sergipe"
+        },
+        {
+            "state": "SP",
+            "name": "São Paulo"
+        },
+        {
+            "state": "TO",
+            "name": "Tocantins"
+        }
+    ],
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /states`
+
+## Retrieve Cities
+This API returns cities from state.
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/states'
+  -F state=AC
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        "Acrelândia",
+        "Assis Brasil",
+        "Brasiléia",
+        "Bujari",
+        "Capixaba",
+        "Cruzeiro do Sul",
+        "Epitaciolândia",
+        "Feijó",
+        "Jordão",
+        "Mâncio Lima",
+        "Manoel Urbano",
+        "Marechal Thaumaturgo",
+        "Plácido de Castro",
+        "Porto Acre",
+        "Porto Walter",
+        "Rio Branco",
+        "Rodrigues Alves",
+        "Santa Rosa do Purus",
+        "Sena Madureira",
+        "Senador Guiomard",
+        "Tarauacá",
+        "Xapuri",
+        "Campinas"
+    ],
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /states`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`state` | string | required | State.
+
 # User
 This API allows you to create, edit and get users.
 
@@ -619,3 +803,39 @@ Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
 `password` | string | required | New password.
 `token` | string | required | Token send to user email.
+
+
+# Zipcode
+This API allows you to complete address info using zipcode.
+
+## Retrieve Address by zipcode
+This API returns an [Address](#user-properties).
+
+```shell
+curl -X GET \
+  'http://api.gamelab.tk/api_client_v1/zipcode?zipcode=70278020'
+```
+
+> JSON response example:
+
+```json
+{
+  "data": {
+    "zipcode": "70278-020",
+    "street": "SQS 412 Bloco B",
+    "neighborhood": "Asa Sul",
+    "city": "Brasília",
+    "state": "DF"
+  },
+  "count": 0,
+  "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /zipcode`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`zipcode` | string | required | Zipcode.

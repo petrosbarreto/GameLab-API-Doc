@@ -98,6 +98,46 @@ All fields that represent images have only the image Identifier and not the imag
 
 The Authentication in GameLab's API is made using **COOKIES**. Therefore, to log in and access protected endpoints you must have cookies enabled on your browser/app.
 
+# Demand
+This API allow you to CRUD city demands.
+
+## Demand properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`state` | string | State.
+`city` | string | City.
+`demands` | array | List of demands.
+
+## Get Demands
+```shell
+curl -X GET \
+  http://api.gamelab.tk/api_admin_v1/demand \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": [
+        {
+            "city": "Brasilia",
+            "state": "DF",
+            "last_modified": "2019-06-27T18:10:41.273000+00:00",
+            "id": "5d128fe1c7f924a22c3a8620",
+            "demands": [
+                "Concurso Publico",
+                "Politica"
+            ],
+            "created_at": "2019-06-25T21:19:29.552000+00:00",
+            "creator": "cayke@instabuy.com.br"
+        }
+    ],
+    "count": 1,
+    "http_status": 200
+}
+```
 
 # Login
 This API allow you to login user. You must pass `email` and `password` or `fb_user_id`.
@@ -172,8 +212,163 @@ curl -X DELETE \
 ### HTTP Request
 `DELETE /logout`
 
-# Question
-This API allows you to list questions by id.
+# Module
+This API allows you to go through modules phases.
+
+## Module Curiosity properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`module` | object | See [Module](#module-properties).
+`user` | object | See [User](#user-properties).
+`step_1` | object | See [Curiosity Step 1](#curiosity-step-1-properties).
+`step_2` | object | See [Curiosity Step 2](#curiosity-step-2-properties).
+`step_3` | object | See [Curiosity Step 3](#curiosity-step-3-properties).
+
+## Curiosity Step 1 properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`type` | `choose_city` | Action that should be implemented on app.
+`answer_city` | string | City.
+`answer_state` | string | State.
+`answer_ready` | bool | If tis step was already answered.
+
+## Curiosity Step 2 properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`type` | `choose_demand` | Action that should be implemented on app.
+`answer_demands` | array | List of string with demands choosed.
+`answer_ready` | bool | If tis step was already answered.
+
+## Curiosity Step 3 properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`type` | `create_company` | Action that should be implemented on app.
+`answer_company` | string | The idea of company created by the user.
+`answer_ready` | bool | If tis step was already answered.
+
+## Get Module
+This API returns the actual module in app flow for the logged user.
+
+```shell
+curl -X GET \
+  http://api.gamelab.tk/api_client_v1/module \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "step_2": {
+            "answer_ready": false,
+            "type": "choose_demand"
+        },
+        "id": "5d15273c9221862169a96e02",
+        "user": {
+			...
+        },
+        "step_3": {
+            "answer_ready": false,
+            "type": "create_company"
+        },
+        "step_1": {
+            "answer_ready": false,
+            "type": "choose_city"
+        },
+        "module": {
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices varius nisl, vitae volutpat lorem ultricies in. Nunc accumsan porta nulla, id maximus justo. Aliquam erat volutpat. Mauris in nisi scelerisque, accumsan libero in, posuere ante. Nam euismod efficitur feugiat. Maecenas vestibulum, mi quis dapibus semper, nisl lorem varius metus, bibendum convallis dui risus viverra tellus. Nam placerat hendrerit quam vel suscipit. Mauris sagittis lectus ac risus ullamcorper suscipit. Suspendisse et erat id odio mollis volutpat non quis ante. Vestibulum posuere commodo augue, ut mattis turpis bibendum nec. Mauris scelerisque, est ac tempus consectetur, risus tortor facilisis ante, non faucibus felis ex at nibh. Vivamus interdum, mauris in tincidunt venenatis, elit purus tempus diam, sit amet euismod ligula massa vel nibh. Donec vulputate consequat tempus. Curabitur id vulputate nibh.",
+            "id": "5cf979f44360c52896606ca2",
+            "title": "Modulo Curiosidade",
+            "index": 1
+        }
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`GET /module`
+
+## Answer module step
+This API allows you to save user choices.
+
+```shell
+curl -X PUT \
+  http://api.gamelab.tk/api_client_v1/module \
+  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+  -F id=5d15273c9221862169a96e02 \
+  -F step=1 \
+  -F 'city=Brasília' \
+  -F state=DF
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "step_1": {
+            "answer_ready": true,
+            "type": "choose_city",
+            "answer_city": "Brasília",
+            "answer_state": "DF"
+        },
+        "step_2": {
+            "type": "choose_demand",
+            "answer_ready": false
+        },
+        "id": "5d15273c9221862169a96e02",
+        "step_3": {
+            "type": "create_company",
+            "answer_ready": false
+        },
+        "module": {
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices varius nisl, vitae volutpat lorem ultricies in. Nunc accumsan porta nulla, id maximus justo. Aliquam erat volutpat. Mauris in nisi scelerisque, accumsan libero in, posuere ante. Nam euismod efficitur feugiat. Maecenas vestibulum, mi quis dapibus semper, nisl lorem varius metus, bibendum convallis dui risus viverra tellus. Nam placerat hendrerit quam vel suscipit. Mauris sagittis lectus ac risus ullamcorper suscipit. Suspendisse et erat id odio mollis volutpat non quis ante. Vestibulum posuere commodo augue, ut mattis turpis bibendum nec. Mauris scelerisque, est ac tempus consectetur, risus tortor facilisis ante, non faucibus felis ex at nibh. Vivamus interdum, mauris in tincidunt venenatis, elit purus tempus diam, sit amet euismod ligula massa vel nibh. Donec vulputate consequat tempus. Curabitur id vulputate nibh.",
+            "index": 1,
+            "id": "5cf979f44360c52896606ca2",
+            "title": "Modulo Curiosidade"
+        },
+        "user": {
+            ...
+        }
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`PUT /module`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`id` | string | required | Module id.
+`step` | int | required | Module step.
+
+*Check the other params acording to each phase below.
+
+##### Available parameters Curiosity Step 1
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`city` | string | required | City.
+`state` | string | required | State.
+
+##### Available parameters Curiosity Step 2
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`demands` | array | required | List with strings containing demands choiced. Send it as json.
+
+##### Available parameters Curiosity Step 3
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`company` | string | required | The company idea created by the user.
+
+# Screening
+This API allows you to go through idea initial setup.
 
 ## Question properties
 Attribute | Type | Description
@@ -183,52 +378,21 @@ Attribute | Type | Description
 `is_flow_root` | boolean | If this question is the root of app flow.
 `choices` | array | List of possible answers. See [Answer](#answer-properties).
 
-## Retrieve Question
-This API return question data.
+## Module properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`title` | string | Module title.
+`image` | string | Module image key.
+`description` | string | Module description.
 
-```shell
-curl -X GET \
-  'http://api.gamelab.tk/api_client_v1/question?id=5cf97b174360c52896606ca3' \
-  -b 'GLAdminSessionCookie=5c15f7287aa145eaab464b4d597ab0f8; 
-```
-
-> JSON response example:
-
-```json
-{
-    "data": {
-        "title": "Você tem alguma ideia de negócio?",
-        "is_flow_root": true,
-        "choices": [
-            {
-                "title": "Não",
-                "finish_module": "5cf979f44360c52896606ca2",
-                "id": "5cf96b5d1ed86d47bc64c75b"
-            },
-            {
-                "title": "Sim",
-                "id": "5cf96a946110d035057e36f7",
-                "next_question": "5cf97b174360c52896606ca3"
-            }
-        ],
-        "id": "5cf968ff54d723678ade3adf"
-    },
-    "count": 0,
-    "http_status": 200
-}
-```
-
-### HTTP Request
-`GET /question`
-
-#### Available parameters
-Parameter | Type | Constraint | Description
--------------- | --------------  | -------------- | -------------- 
-`id` | string | optional | Question Id.
-
-
-# Screening
-This API allows you to go through idea initial setup.
+## Answer properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`id` | string |	Unique identifier for the resource.
+`title` | string | Answer title.
+`next_question` | Object | If user select this answer, what question should be the next. See [Question](#question-properties).
+`finish_module` | Object | If user select this answer, what module should appear next. See [Module](#module-properties).
 
 ## Get actual question
 This API allows you to get the current question on screening flow.

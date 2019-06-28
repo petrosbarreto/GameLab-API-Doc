@@ -155,7 +155,7 @@ Attribute | Type | Description
 `id` | string |	Unique identifier for the resource.
 `state` | string | State.
 `city` | string | City.
-`demands` | array<string> | List of demands.
+`demands` | array | List of demands.
 
 ## Get Demands
 ```shell

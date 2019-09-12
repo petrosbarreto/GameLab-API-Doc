@@ -98,46 +98,6 @@ All fields that represent images have only the image Identifier and not the imag
 
 The Authentication in GameLab's API is made using **COOKIES**. Therefore, to log in and access protected endpoints you must have cookies enabled on your browser/app.
 
-# Demand
-This API allow you to CRUD city demands.
-
-## Demand properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`id` | string |	Unique identifier for the resource.
-`state` | string | State.
-`city` | string | City.
-`demands` | array | List of demands.
-
-## Get Demands
-```shell
-curl -X GET \
-  http://api.gamelab.tk/api_admin_v1/demand \
-  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
-```
-
-> JSON response example:
-
-```json
-{
-    "data": [
-        {
-            "city": "Brasilia",
-            "state": "DF",
-            "last_modified": "2019-06-27T18:10:41.273000+00:00",
-            "id": "5d128fe1c7f924a22c3a8620",
-            "demands": [
-                "Concurso Publico",
-                "Politica"
-            ],
-            "created_at": "2019-06-25T21:19:29.552000+00:00",
-            "creator": "cayke@instabuy.com.br"
-        }
-    ],
-    "count": 1,
-    "http_status": 200
-}
-```
 
 # Login
 This API allow you to login user. You must pass `email` and `password` or `fb_user_id`.
@@ -212,48 +172,35 @@ curl -X DELETE \
 ### HTTP Request
 `DELETE /logout`
 
-# Module
-This API allows you to go through modules phases.
 
-## Module Curiosity properties
+# Progress
+This API allows you to save user progress through the game.
+
+## Progress properties
 Attribute | Type | Description
 -------------- | -------------- | -------------- 
 `id` | string |	Unique identifier for the resource.
-`module` | object | See [Module](#module-properties).
-`user` | object | See [User](#user-properties).
-`step_1` | object | See [Curiosity Step 1](#curiosity-step-1-properties).
-`step_2` | object | See [Curiosity Step 2](#curiosity-step-2-properties).
-`step_3` | object | See [Curiosity Step 3](#curiosity-step-3-properties).
+`coins` | int | User coins.
+`phase` | string | User last game phase.
+`initial_state` | string | Company inital state after first quiz. `curiosity`, `ideation`,  `operation` or `traction`.
+`section` | string | Company section/market.
+`pains` | array | List with strings. What pains company solve.
+`target_audience` | string |  Company target audience.
+`target_justification` | string | Company target audience justification.
+`persona` | array | List with strings. Company persona infos.
+`channels` | array |  List with strings. Company acquisition channels.
+`mkt_monthly_budge` | float | Company marketing budget.
+`sale_monthly_budge` | float | Company sale budget.
+`new_clients_per_month` | int | New clients per month.
+`recipe_model` | string | How company makes money.
 
-## Curiosity Step 1 properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`type` | `choose_city` | Action that should be implemented on app.
-`answer_city` | string | City.
-`answer_state` | string | State.
-`answer_ready` | bool | If tis step was already answered.
 
-## Curiosity Step 2 properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`type` | `choose_demand` | Action that should be implemented on app.
-`answer_demands` | array | List of string with demands choosed.
-`answer_ready` | bool | If tis step was already answered.
-
-## Curiosity Step 3 properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`type` | `create_company` | Action that should be implemented on app.
-`answer_company` | string | The idea of company created by the user.
-`answer_ready` | bool | If tis step was already answered.
-
-## Get Module
-This API returns the actual module in app flow for the logged user.
+## Retrieve Progress
+This API returns current progress.
 
 ```shell
 curl -X GET \
-  http://api.gamelab.tk/api_client_v1/module \
-  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
+  'http://api.gamelab.tk/api_client_v1/progress'
 ```
 
 > JSON response example:
@@ -261,28 +208,10 @@ curl -X GET \
 ```json
 {
     "data": {
-        "step_2": {
-            "answer_ready": false,
-            "type": "choose_demand"
-        },
-        "id": "5d15273c9221862169a96e02",
-        "user": {
-			...
-        },
-        "step_3": {
-            "answer_ready": false,
-            "type": "create_company"
-        },
-        "step_1": {
-            "answer_ready": false,
-            "type": "choose_city"
-        },
-        "module": {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices varius nisl, vitae volutpat lorem ultricies in. Nunc accumsan porta nulla, id maximus justo. Aliquam erat volutpat. Mauris in nisi scelerisque, accumsan libero in, posuere ante. Nam euismod efficitur feugiat. Maecenas vestibulum, mi quis dapibus semper, nisl lorem varius metus, bibendum convallis dui risus viverra tellus. Nam placerat hendrerit quam vel suscipit. Mauris sagittis lectus ac risus ullamcorper suscipit. Suspendisse et erat id odio mollis volutpat non quis ante. Vestibulum posuere commodo augue, ut mattis turpis bibendum nec. Mauris scelerisque, est ac tempus consectetur, risus tortor facilisis ante, non faucibus felis ex at nibh. Vivamus interdum, mauris in tincidunt venenatis, elit purus tempus diam, sit amet euismod ligula massa vel nibh. Donec vulputate consequat tempus. Curabitur id vulputate nibh.",
-            "id": "5cf979f44360c52896606ca2",
-            "title": "Modulo Curiosidade",
-            "index": 1
-        }
+        "id": "5d7ac525a86bf6aaef92bc03",
+        "coins": 0,
+        "phase": "0",
+        "user": "5cddb6dfb4876c265729c75e"
     },
     "count": 0,
     "http_status": 200
@@ -290,50 +219,28 @@ curl -X GET \
 ```
 
 ### HTTP Request
-`GET /module`
+`GET /progress`
 
-## Answer module step
-This API allows you to save user choices.
+## Edit Progress
+This API allows you to edit user progress.
 
 ```shell
 curl -X PUT \
-  http://api.gamelab.tk/api_client_v1/module \
-  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
-  -F id=5d15273c9221862169a96e02 \
-  -F step=1 \
-  -F 'city=Brasília' \
-  -F state=DF
+  http://api.gamelab.tk/api_client_v1/progress \
+  -H 'Cookie:GLClientSessionCookie=4d1b50721ed4447fbcab6556da74cdd6' \
+  -F coins=50 \
+  -F initial_state=ideation
 ```
-
 > JSON response example:
 
 ```json
 {
     "data": {
-        "step_1": {
-            "answer_ready": true,
-            "type": "choose_city",
-            "answer_city": "Brasília",
-            "answer_state": "DF"
-        },
-        "step_2": {
-            "type": "choose_demand",
-            "answer_ready": false
-        },
-        "id": "5d15273c9221862169a96e02",
-        "step_3": {
-            "type": "create_company",
-            "answer_ready": false
-        },
-        "module": {
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices varius nisl, vitae volutpat lorem ultricies in. Nunc accumsan porta nulla, id maximus justo. Aliquam erat volutpat. Mauris in nisi scelerisque, accumsan libero in, posuere ante. Nam euismod efficitur feugiat. Maecenas vestibulum, mi quis dapibus semper, nisl lorem varius metus, bibendum convallis dui risus viverra tellus. Nam placerat hendrerit quam vel suscipit. Mauris sagittis lectus ac risus ullamcorper suscipit. Suspendisse et erat id odio mollis volutpat non quis ante. Vestibulum posuere commodo augue, ut mattis turpis bibendum nec. Mauris scelerisque, est ac tempus consectetur, risus tortor facilisis ante, non faucibus felis ex at nibh. Vivamus interdum, mauris in tincidunt venenatis, elit purus tempus diam, sit amet euismod ligula massa vel nibh. Donec vulputate consequat tempus. Curabitur id vulputate nibh.",
-            "index": 1,
-            "id": "5cf979f44360c52896606ca2",
-            "title": "Modulo Curiosidade"
-        },
-        "user": {
-            ...
-        }
+        "user": "5cddb6dfb4876c265729c75e",
+        "id": "5d7ac525a86bf6aaef92bc03",
+        "coins": 50,
+        "initial_state": "ideation",
+        "phase": "0"
     },
     "count": 0,
     "http_status": 200
@@ -341,130 +248,24 @@ curl -X PUT \
 ```
 
 ### HTTP Request
-`PUT /module`
+`PUT /progress`
 
 #### Available parameters
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
-`id` | string | required | Module id.
-`step` | int | required | Module step.
-
-*Check the other params acording to each phase below.
-
-##### Available parameters Curiosity Step 1
-Parameter | Type | Constraint | Description
--------------- | --------------  | -------------- | -------------- 
-`city` | string | required | City.
-`state` | string | required | State.
-
-##### Available parameters Curiosity Step 2
-Parameter | Type | Constraint | Description
--------------- | --------------  | -------------- | -------------- 
-`demands` | array | required | List with strings containing demands choiced. Send it as json.
-
-##### Available parameters Curiosity Step 3
-Parameter | Type | Constraint | Description
--------------- | --------------  | -------------- | -------------- 
-`company` | string | required | The company idea created by the user.
-
-# Screening
-This API allows you to go through idea initial setup.
-
-## Question properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`id` | string |	Unique identifier for the resource.
-`title` | string | User email.
-`is_flow_root` | boolean | If this question is the root of app flow.
-`choices` | array | List of possible answers. See [Answer](#answer-properties).
-
-## Module properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`id` | string |	Unique identifier for the resource.
-`title` | string | Module title.
-`image` | string | Module image key.
-`description` | string | Module description.
-
-## Answer properties
-Attribute | Type | Description
--------------- | -------------- | -------------- 
-`id` | string |	Unique identifier for the resource.
-`title` | string | Answer title.
-`next_question` | Object | If user select this answer, what question should be the next. See [Question](#question-properties).
-`finish_module` | Object | If user select this answer, what module should appear next. See [Module](#module-properties).
-
-## Get actual question
-This API allows you to get the current question on screening flow.
-
-```shell
-curl -X GET \
-  http://api.gamelab.tk/api_client_v1/screening \
-  -H 'cookie: GLClientSessionCookie=28a9f2fe1c5e40f8bfbba687f245f708'
-```
-
-> JSON response example:
-
-```json
-{
-    "data": {
-        "title": "Você tem alguma ideia de negócio?",
-        "id": "5cf968ff54d723678ade3adf",
-        "is_flow_root": true,
-        "choices": [
-            {
-                "title": "Não",
-                "id": "5cf96b5d1ed86d47bc64c75b",
-                "finish_module": "5cf979f44360c52896606ca2"
-            },
-            {
-                "title": "Sim",
-                "id": "5cf96a946110d035057e36f7",
-                "next_question": "5cf97b174360c52896606ca3"
-            }
-        ]
-    },
-    "count": 0,
-    "http_status": 200
-}
-```
-
-### HTTP Request
-`GET /screening`
-
-## Answer Question
-This API allows you to get the answer a question. The response is either a new [Question](#question-properties) or a [Module](#module-properties).
-
-```shell
-curl -X POST \
-  http://api.gamelab.tk/api_client_v1/screening \
-  -H 'cookie: GLClientSessionCookie=06564ea3fefe4b568d5867dd26d4bd82' \
-  -d 'question_id=5cf968ff54d723678ade3adf&answer_id=5cf96a946110d035057e36f7'
-```
-
-> JSON response example:
-
-```json
-{
-    "data": {
-        "title": "Já possui negócio?",
-        "id": "5cf97b174360c52896606ca3",
-        "choices": [],
-        "is_flow_root": false
-    },
-    "count": 0,
-    "http_status": 200
-}
-```
-
-### HTTP Request
-`POST /screening`
-
-#### Available parameters
-Parameter | Type | Constraint | Description
--------------- | --------------  | -------------- | -------------- 
-`question_id` | string | required | Question Id.
-`answer_id` | string | required | Choiced answer Id.
+`coins` | int | optional | User coins.
+`phase` | string | optional | User last game phase.
+`initial_state` | string | optional | Company inital state after first quiz. `curiosity`, `ideation`,  `operation` or `traction`.
+`section` | string | optional | Company section/market.
+`pains` | array | optional | List with strings. What pains company solve.
+`target_audience` | string |  optional | Company target audience.
+`target_justification` | string | optional | Company target audience justification.
+`persona` | array | optional | List with strings. Company persona infos.
+`channels` | array |  optional | List with strings. Company acquisition channels.
+`mkt_monthly_budge` | float | optional | Company marketing budget.
+`sale_monthly_budge` | float | optional | Company sale budget.
+`new_clients_per_month` | int | optional | New clients per month.
+`recipe_model` | string | optional | How company makes money.
 
 # States and Cities
 This API allows you to get states and cities.
@@ -658,32 +459,25 @@ Attribute | Type | Description
 -------------- | -------------- | -------------- 
 `id` | string |	Unique identifier for the resource.
 `email` | string | User email.
-`phone` | string | User phone.
-`user_type` | string | User type. If `PF` see [UserPF](#userpf-properties), if `PJ` see [UserPJ](#userpj-properties).
-`gender` | string | User gender. Either `F` or `M`.
+`phone` | string | User phone. `(XX)XXXXX-XXXX` format.
 `first_name` | string | User first name.
 `last_name` | string | User last name.
-`birthday` | datetime | User birthday.
-`cpf` | string | User CPF.
+`gender` | string | User gender. `F` or `M`.
+`birthday` | string | User birthday. `DD/MM/YYYY` format.
+`cpf` | string | User CPF. `XXX.XXX.XXX-XX` format.
 `zipcode` | string | Address zipcode.
-`state` | string | Address state.
+`state` | string | Address state. `XX` format.
 `city` | string | Address city.
 `neighborhood` | string | Address neighborhood.
 `street` | string | Adress Street name.
 `street_number` | string | Address Street/House Number.
 `complement` | string | Address complement.
-
-## UserPF properties
-All UserPF inherit from User.
-
-## UserPJ properties
-All UserPJ inherit from User.
-
-Attribute | Type | Description
--------------- | -------------- | -------------- 
 `company_name` | string | User company name.
+`fantasy_name` | string | User fantast name.
 `company_size` | string | Company port. `ME`, `EPP`, `MP`, `GP`.
-`cnpj` | string | User CNPJ.
+`cnpj` | string | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
+`latitude` | float | User location latitude.
+`longitude` | float | User location longitude.
 
 ## Retrieve User
 This API allows you to get the logged user.
@@ -788,22 +582,25 @@ Parameter | Type | Constraint | Description
 `email` | string | required | User email.
 `password` | string | optional | User password.
 `fb_user_id` | string | optional | User Facebook Id.
-`phone` | string | required | User phone. `(XX)XXXXX-XXXX` format.
-`first_name` | string | required | User first name.
-`last_name` | string | required | User last name.
-`gender` | string | required | User gender. `F` or `M`.
-`birthday` | string | required | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required | User CPF. `XXX.XXX.XXX-XX` format.
-`zipcode` | string | required | Address zipcode.
-`state` | string | required | Address state. `XX` format.
-`city` | string | required | Address city.
-`neighborhood` | string | required | Address neighborhood.
-`street` | string | required | Adress Street name.
-`street_number` | string | required | Address Street/House Number.
+`phone` | string | optional | User phone. `(XX)XXXXX-XXXX` format.
+`first_name` | string | optional | User first name.
+`last_name` | string | optional | User last name.
+`gender` | string | optional | User gender. `F` or `M`.
+`birthday` | string | optional | User birthday. `DD/MM/YYYY` format.
+`cpf` | string | optional | User CPF. `XXX.XXX.XXX-XX` format.
+`zipcode` | string | optional | Address zipcode.
+`state` | string | optional | Address state. `XX` format.
+`city` | string | optional | Address city.
+`neighborhood` | string | optional | Address neighborhood.
+`street` | string | optional | Adress Street name.
+`street_number` | string | optional | Address Street/House Number.
 `complement` | string | optional | Address complement.
-`company_name` | string | required for PJ | User company name.
-`company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
-`cnpj` | string | required for PJ | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
+`company_name` | string | optional | User company name.
+`fantasy_name` | string | optional | User fantast name.
+`company_size` | string | optional | Company port. `ME`, `EPP`, `MP`, `GP`.
+`cnpj` | string | optional | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
+`latitude` | float | optional | User location latitude.
+`longitude` | float | optional | User location longitude.
 
 ## Edit User
 This API allows you to edit User info.
@@ -861,22 +658,25 @@ curl -X PUT \
 #### Available parameters
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
-`phone` | string | required | User phone. `(XX)XXXXX-XXXX` format.
-`first_name` | string | required | User first name.
-`last_name` | string | required | User last name.
-`gender` | string | required | User gender. `F` or `M`.
-`birthday` | string | required | User birthday. `DD/MM/YYYY` format.
-`cpf` | string | required | User CPF. `XXX.XXX.XXX-XX` format.
-`zipcode` | string | required | Address zipcode.
-`state` | string | required | Address state. `XX` format.
-`city` | string | required | Address city.
-`neighborhood` | string | required | Address neighborhood.
-`street` | string | required | Adress Street name.
-`street_number` | string | required | Address Street/House Number.
+`phone` | string | optional | User phone. `(XX)XXXXX-XXXX` format.
+`first_name` | string | optional | User first name.
+`last_name` | string | optional | User last name.
+`gender` | string | optional | User gender. `F` or `M`.
+`birthday` | string | optional | User birthday. `DD/MM/YYYY` format.
+`cpf` | string | optional | User CPF. `XXX.XXX.XXX-XX` format.
+`zipcode` | string | optional | Address zipcode.
+`state` | string | optional | Address state. `XX` format.
+`city` | string | optional | Address city.
+`neighborhood` | string | optional | Address neighborhood.
+`street` | string | optional | Adress Street name.
+`street_number` | string | optional | Address Street/House Number.
 `complement` | string | optional | Address complement.
-`company_name` | string | required for PJ | User company name.
-`company_size` | string | required for PJ | Company port. `ME`, `EPP`, `MP`, `GP`.
-`cnpj` | string | required for PJ | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
+`company_name` | string | optional | User company name.
+`fantasy_name` | string | optional | User fantast name.
+`company_size` | string | optional | Company port. `ME`, `EPP`, `MP`, `GP`.
+`cnpj` | string | optional | User CNPJ. `XX.XXX.XXX/XXXX-XX` format.
+`latitude` | float | optional | User location latitude.
+`longitude` | float | optional | User location longitude.
 
 # User Password
 This API allows you to change user password with different methods.

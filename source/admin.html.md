@@ -163,6 +163,10 @@ Attribute | Type | Description
 -------------- | -------------- | -------------- 
 `id` | string |	Unique identifier for the resource.
 `email` | string | User email.
+`phone` | string | User phone. `(XX)XXXXX-XXXX` format.
+`first_name` | string | User first name.
+`last_name` | string | User last name.
+`about` | string | User about.
 
 ## Retrieve User
 This API allows you to get the logged user.
@@ -188,6 +192,35 @@ curl -X GET \
 
 ### HTTP Request
 `GET /user`
+
+## Create Admin
+This API allows you to create new user.
+
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_admin_v1/user \
+  -F email=cayke@teste.com.br \
+  -F password=123456
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {
+        "id": "5d8536189bc4dfbe840601c3",
+        "created_at": "2019-09-20T20:27:04.574000+00:00",
+        "creator": "cayke@instabuy.com.br",
+        "email": "cayke@teste.com.br",
+        "last_modified": "2019-09-20T20:27:04.283000+00:00"
+    },
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`POST /user`
 
 # User Password
 This API allows you to change user password with different methods.

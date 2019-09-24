@@ -189,8 +189,8 @@ Attribute | Type | Description
 `target_justification` | string | Company target audience justification.
 `persona` | array | List with strings. Company persona infos.
 `channels` | array |  List with strings. Company acquisition channels.
-`mkt_monthly_budge` | float | Company marketing budget.
-`sale_monthly_budge` | float | Company sale budget.
+`mkt_monthly_budget` | float | Company marketing budget.
+`sale_monthly_budget` | float | Company sale budget.
 `new_clients_per_month` | int | New clients per month.
 `recipe_model` | string | How company makes money.
 

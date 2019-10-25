@@ -609,3 +609,5 @@ Parameter | Type | Constraint | Description
 `state` | string | optional | Pass it if you want state report.
 `initial_state` | string | optional | Pass it if you want idea/company initial state report.
 `actual_phase` | string | optional | Pass it if you want users actual game phase report.
+`section` | string | optional | Pass it if you want section report.
+`pains` | string | optional | Pass it if you want pains report.

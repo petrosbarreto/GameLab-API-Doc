@@ -193,6 +193,7 @@ Attribute | Type | Description
 `sale_monthly_budget` | float | Company sale budget.
 `new_clients_per_month` | int | New clients per month.
 `recipe_model` | string | How company makes money.
+`user_idea` | string | User idea.
 
 
 ## Retrieve Progress
@@ -266,6 +267,7 @@ Parameter | Type | Constraint | Description
 `sale_monthly_budge` | float | optional | Company sale budget.
 `new_clients_per_month` | int | optional | New clients per month.
 `recipe_model` | string | optional | How company makes money.
+`user_idea` | string | optional | User idea.
 
 # States and Cities
 This API allows you to get states and cities.

@@ -611,3 +611,4 @@ Parameter | Type | Constraint | Description
 `actual_phase` | string | optional | Pass it if you want users actual game phase report.
 `section` | string | optional | Pass it if you want section report.
 `pains` | string | optional | Pass it if you want pains report.
+`users_count` | string | optional | Pass it if you want users count from the last 12 months.

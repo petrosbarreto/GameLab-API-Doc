@@ -208,6 +208,7 @@ Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
 `email` | string | required | User email.
 `password` | string | required | User password.
+`user_type` | string | required | User type. Opts: `super`, `normal`.
 
 ## Remove Admin
 This API allows you to delete admin.

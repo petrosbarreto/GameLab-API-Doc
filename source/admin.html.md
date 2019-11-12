@@ -90,9 +90,38 @@ Page number is `1-based` and omitting the `?page` parameter will return the firs
 
 The total number of resources are included in the response `count` field.
 
-## Images
+# Images
 All fields that represent images have only the image Identifier and not the image URL.
-<!-- todo -->
+
+To acess the image, append the image key to the url: [https://gamelab-files.s3.amazonaws.com/`image_key`](https://gamelab-files.s3.amazonaws.com/).
+
+## Upload image
+To upload an image, send the image as a binary to the endpoint above.
+
+```shell
+curl -X POST \
+  http://localhost:8000/api_client_v1/image \
+  -H 'Content-Length: 34191' \
+  -H 'Cookie: GLClientSessionCookie=5adfd91663f740eb81c6d4924bd507e1' \
+  -F 'file=@/Users/cayke/Desktop/Captura de Tela 2019-11-12 às 16.27.58.png'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": "58bada0915e440548852a8df5b0821ad.png",
+    "count": 0,
+    "http_status": 200
+}
+```
+### HTTP Request
+`POST /image`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`file` | binary | required | `PNG` or `JPG` image. Max size is `2 MB`.
 
 # Authentication
 
@@ -363,6 +392,35 @@ Parameter | Type | Constraint | Description
 `items_per_page` | string | int | Items per page.
 `page` | string | int | Query page - 1 based index.
 
+## Delete Client
+This API allows you to delete clients.
+
+```shell
+curl -X DELETE \
+  http://api.gamelab.tk/api_admin_v1/client_user \
+  -H 'Cookie: GLAdminSessionCookie=154dc1cf15ab43529eb48e20acd78286' \
+  -F email=cayke10@gmail.com
+```
+
+> JSON response example:
+
+```json
+{
+    "data": "ok",
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`DELETE /client_user`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`email` | string | optional | User email.
+`cpf` | string | optional | User cpf.
+
 # Login
 This API allow you to login user. You must pass `email` and `password`.
 
@@ -607,6 +665,7 @@ Parameter | Type | Constraint | Description
 `sex` | string | optional | Pass it if you want sex report.
 `age` | string | optional | Pass it if you want age report.
 `state` | string | optional | Pass it if you want state report.
+`cities` | string | optional | Pass it if you want cities report. Must pass state identifier on `cities` parameter. Ex: `cities=DF`.
 `initial_state` | string | optional | Pass it if you want idea/company initial state report.
 `actual_phase` | string | optional | Pass it if you want users actual game phase report.
 `section` | string | optional | Pass it if you want section report.

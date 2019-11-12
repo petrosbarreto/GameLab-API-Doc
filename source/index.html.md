@@ -90,9 +90,39 @@ Page number is `1-based` and omitting the `?page` parameter will return the firs
 
 The total number of resources are included in the response `count` field.
 
-## Images
+# Images
 All fields that represent images have only the image Identifier and not the image URL.
-<!-- todo -->
+
+To acess the image, append the image key to the url: [https://gamelab-files.s3.amazonaws.com/`image_key`](https://gamelab-files.s3.amazonaws.com/).
+
+## Upload image
+To upload an image, send the image as a binary to the endpoint above.
+
+```shell
+curl -X POST \
+  http://localhost:8000/api_client_v1/image \
+  -H 'Content-Length: 34191' \
+  -H 'Cookie: GLClientSessionCookie=5adfd91663f740eb81c6d4924bd507e1' \
+  -F 'file=@/Users/cayke/Desktop/Captura de Tela 2019-11-12 às 16.27.58.png'
+```
+
+> JSON response example:
+
+```json
+{
+    "data": "58bada0915e440548852a8df5b0821ad.png",
+    "count": 0,
+    "http_status": 200
+}
+```
+### HTTP Request
+`POST /image`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`file` | binary | required | `PNG` or `JPG` image. Max size is `2 MB`.
+
 
 # Authentication
 
@@ -194,6 +224,7 @@ Attribute | Type | Description
 `new_clients_per_month` | int | New clients per month.
 `recipe_model` | string | How company makes money.
 `user_idea` | string | User idea.
+`validation_missions` | array | Array with validation missions.
 
 
 ## Retrieve Progress
@@ -268,6 +299,7 @@ Parameter | Type | Constraint | Description
 `new_clients_per_month` | int | optional | New clients per month.
 `recipe_model` | string | optional | How company makes money.
 `user_idea` | string | optional | User idea.
+`validation_missions` | array | optional | Array with validation missions.
 
 # States and Cities
 This API allows you to get states and cities.

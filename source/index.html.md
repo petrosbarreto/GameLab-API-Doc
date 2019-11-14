@@ -225,6 +225,17 @@ Attribute | Type | Description
 `recipe_model` | string | How company makes money.
 `user_idea` | string | User idea.
 `validation_missions` | array | Array with validation missions.
+`experiments` | array | List with [Experiment Boards](#experiment-board-properties).
+
+## Experiment Board properties
+Attribute | Type | Description
+-------------- | -------------- | -------------- 
+`client` | string |	Who is the test for.
+`hypothesis` | string | What risk is this test testing?
+`test` | string | What is the smallest experiment I can do to test this hypothesis?
+`success_criterion` | string | What is the criterion for you to consider the experiment a success?
+`result` | string | Result x criterion (passed or failed)
+`learning` | string | What did you learn from this experiment?
 
 
 ## Retrieve Progress
@@ -300,6 +311,7 @@ Parameter | Type | Constraint | Description
 `recipe_model` | string | optional | How company makes money.
 `user_idea` | string | optional | User idea.
 `validation_missions` | array | optional | Array with validation missions.
+`experiment` | object | optional | Pass the `phase` field (from 0 to 4) plus the [Experiment Board Object](#experiment-board-properties).
 
 # States and Cities
 This API allows you to get states and cities.

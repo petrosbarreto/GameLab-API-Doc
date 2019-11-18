@@ -393,6 +393,41 @@ Parameter | Type | Constraint | Description
 `items_per_page` | string | int | Items per page.
 `page` | string | int | Query page - 1 based index.
 
+## Create Client
+This API allows you to create clients.
+
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_admin_v1/client_user \
+  -H 'Cookie: GLAdminSessionCookie=154dc1cf15ab43529eb48e20acd78286' \
+  -F email=cayke10@gmail.com
+```
+
+> JSON response example:
+
+```json
+{
+    "data": {  
+		"last_modified": "2019-10-02T14:35:44.215000+00:00",
+		"creator": "unknown",
+		"id": "5d94b5bfafcba37c3e9c9d27",
+		"email": "cayke10@gmail.com",
+		"created_at": "2019-10-02T14:35:43.551000+00:00",
+	},
+    "count": 1,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`POST /client_user`
+
+#### Available parameters
+Parameter | Type | Constraint | Description
+-------------- | --------------  | -------------- | -------------- 
+`email` | string | required | User email.
+
+
 ## Delete Client
 This API allows you to delete clients.
 
@@ -554,7 +589,7 @@ This API generates token and send it to user email.
 
 ```shell
 curl -X POST \
-  http://api.gamelab.tk/api_admin_v1/forgotpassword \
+  http://api.gamelab.tk/api_admin_v1/recover_password \
   -F email=cayke10@gmail.com
 ```
 
@@ -569,7 +604,7 @@ curl -X POST \
 ``` 
 
 ### HTTP Request
-`POST /forgotpassword`
+`POST /recover_password`
 
 #### Available parameters
 Parameter | Type | Constraint | Description

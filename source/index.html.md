@@ -130,7 +130,7 @@ The Authentication in GameLab's API is made using **COOKIES**. Therefore, to log
 
 
 # Login
-This API allow you to login user. You must pass `email` and `password` or `fb_user_id`.
+This API allow you to login user. You must pass `email` and (`password` or `fb_user_id`).
 
 ```shell
 curl -X POST \
@@ -175,7 +175,7 @@ curl -X POST \
 #### Available parameters
 Parameter | Type | Constraint | Description
 -------------- | --------------  | -------------- | -------------- 
-`email` | string | optional | User email.
+`email` | string | required | User email.
 `password` | string | optional | User password.
 `fb_user_id` | string | optional | User Facebook Id.
 
@@ -312,6 +312,30 @@ Parameter | Type | Constraint | Description
 `user_idea` | string | optional | User idea.
 `validation_missions` | array | optional | Array with validation missions.
 `experiment` | object | optional | Pass the `phase` field (from 0 to 4) plus the [Experiment Board Object](#experiment-board-properties).
+
+# Report
+This API allows you to create and send report to user email.
+
+## Create Report
+
+```shell
+curl -X POST \
+  http://api.gamelab.tk/api_client_v1/report \
+  -H 'Cookie:GLClientSessionCookie=4d1b50721ed4447fbcab6556da74cdd6' \
+```
+> JSON response example:
+
+```json
+{
+    "data": "5d7ac525a86bf6aaef92bc03.pdf",
+    "count": 0,
+    "http_status": 200
+}
+```
+
+### HTTP Request
+`POST /report`
+
 
 # States and Cities
 This API allows you to get states and cities.
@@ -762,7 +786,7 @@ This API generates token and send it to user email.
 
 ```shell
 curl -X POST \
-  http://api.gamelab.tk/api_client_v1/forgotpassword \
+  http://api.gamelab.tk/api_client_v1/recover_password \
   -F email=cayke10@gmail.com
 ```
 
@@ -777,7 +801,7 @@ curl -X POST \
 ``` 
 
 ### HTTP Request
-`POST /forgotpassword`
+`POST /recover_password`
 
 #### Available parameters
 Parameter | Type | Constraint | Description

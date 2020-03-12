@@ -1040,5 +1040,9 @@ Parameter | Type | Constraint | Description
 `pains` | string | optional | Pass it if you want pains report.
 `users_count` | string | optional | Pass it if you want users count from the last 12 months.
 `users_by_section` | string| optional | User's company/idea section.
-`start_date` | string | optional | Works with `users_by_section`. `YYYY-MM-DD` format.
-`end_date` | string | optional | Works with `users_by_section`. `YYYY-MM-DD` format.
+`users_by_phase` | string| optional | User's progress phase.
+`users_by_pain` | string| optional | User's pain.
+`users_by_state` | string| optional | User's state.
+`users_by_city` | string| optional | User's city.
+`start_date` | string | optional | Works with `users_by_{field}`. `YYYY-MM-DD` format.
+`end_date` | string | optional | Works with `users_by_{field}`. `YYYY-MM-DD` format.
